@@ -19,7 +19,6 @@ def login():
                 "reason": "request is invalid"
             }
         ), 400)
-
     result = userService.login(data['email'], data['password'])
     if not result:
         return make_response(jsonify(

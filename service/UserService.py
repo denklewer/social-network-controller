@@ -1,4 +1,3 @@
-import datetime
 
 from dao.UserMongoDao import UserMongoDao
 
@@ -31,19 +30,6 @@ class UserService:
         if result is None:
             result = {}
         return result
-
-print("\n")
-print()
-newUser = {
-    "name" : "Maksim",
-    "lastname" : "Kleverov",
-    "birthdate" : datetime.datetime(1995, 4, 5, 0, 0, 0, 0),
-    "skype" : "maksklewer",
-    "email" : "maksklewer@gmail.com",
-    "phone" : "123-123-23",
-    "login" : "maksklewer",
-    "password" : "somepass222"
-}
 
 
 
