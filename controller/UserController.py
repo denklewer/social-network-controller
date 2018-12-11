@@ -46,7 +46,7 @@ def current():
         return make_response(jsonify(
             {
                 "status": "error",
-                "reason": "wrong username or password"
+                "reason": "wrong username or password current"
             }
         ), 400)
     return JSONEncoder.encode(result), 200
@@ -93,3 +93,25 @@ def insertUser():
             }
         ), 400)
     return JSONEncoder.encode(result), 200
+
+@user.route('/GetTeam', methods=['POST'])
+
+def getteam():
+    data = request.get_json()
+    if data is None or "email" not in data:
+        return make_response(jsonify(
+            {
+                "status": "error",
+                "reason":"request team is invalid"
+            }
+        ),400)
+    result = userService.get_team(data['email'])
+    if not result:
+        return make_response(jsonify(
+            {
+                "status": "error",
+                "reason" : "get team was not correct"
+            }
+        ),400)
+    return JSONEncoder.encode(result)
+

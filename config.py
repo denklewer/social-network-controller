@@ -1,6 +1,7 @@
 import os
 import logging
 
+
 __logger = logging.getLogger("config_parser")
 
 # parsing SCVMM config

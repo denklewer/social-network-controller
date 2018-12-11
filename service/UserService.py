@@ -31,6 +31,12 @@ class UserService:
             result = {}
         return result
 
+    def get_team(self, user):
+        result = self.dao.get_team(user)
+        if result is None:
+            result = []
+        return result
+
 
 
 

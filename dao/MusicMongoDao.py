@@ -1,29 +1,31 @@
 from pymongo import MongoClient
 import config
 import logging
-from bson.objectid import ObjectId
 from dao.MusicDao import MusicDao
-import gridfs
-# For MIME types
-import magic
-
 
 class MusicMongoDao(MusicDao):
-    logger = logging.getLogger("userDao")
+    logger = logging.getLogger("MusicDao")
     client = MongoClient(config.MONGODB_URL % ("denis", "Ze97gCD6WUQF"))
     database = client["tu-graz"]
     collection = database["Music"]
-    fs = gridfs.GridFS(database)
+    publicProjection={"_id": 1.0,
+                        "name": 1.0,
+                        "singer": 1.0,
+                        "album": 1.0,
+                       "rating": 1.0,
+                       "size": 1.0,
+                       "owner": 1.0}
 
+    def load_music(self, user):
+        query = {}
+        query['owner'] = user
+        song_list = []
+        try:
+            result = self.collection.find(query, projection=self.publicProjection)
 
-def insert_music(self, music):
-    music_id = ""
-    try:
-        mime = magic.Magic(mime=True)
-        mime.from_file(music['file'])
-        file_id = self.fs.put(open(music['file']), content_type=mime, filename=music["name"])
-        music['data'] = file_id
-        music_id = self.collection.insert_one(music).inserted_id
-    except Exception as e:
-        self.logger.exception(str(e))
-    return music_id
+            for doc in result:
+                song_list.append(doc)
+            song_list = {"Song": [i for i in song_list]}
+        except Exception as e:
+            self.logger.exception(str(e))
+        return song_list

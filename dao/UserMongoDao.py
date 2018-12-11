@@ -76,6 +76,7 @@ class UserMongoDao(UserDao):
         result = ""
         try:
             result = self.collection.find_one(query, projection=self.privateProjection)
+
             if (result.get('password') == password):
                 result = self.collection.find_one(query, projection=self.publicProjection)
             else:
@@ -126,6 +127,24 @@ class UserMongoDao(UserDao):
         except Exception as e:
             self.logger.exception(str(e))
         return modified_count
+
+    def get_team(self, user):
+        query = {}
+        query["email"] = user
+        result = {}
+        user_list=[]
+        try:
+            result = self.collection.find_one(query, projection=self.publicProjection)
+            query1={"company": result.get('company')}
+            resultout={}
+            resultout=self.collection.find(query1, projection=self.publicProjection)
+
+            for doc in resultout:
+                user_list.append(doc)
+            user_list1 = {"title":[i for i in user_list]}
+        except Exception as e:
+            self.logger.exception(str(e))
+        return user_list1
 
     @staticmethod
     def validate_public(user):
