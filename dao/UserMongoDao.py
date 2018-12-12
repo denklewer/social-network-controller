@@ -135,16 +135,13 @@ class UserMongoDao(UserDao):
         user_list=[]
         try:
             result = self.collection.find_one(query, projection=self.publicProjection)
-            query1={"company": result.get('company')}
-            resultout={}
-            resultout=self.collection.find(query1, projection=self.publicProjection)
-
-            for doc in resultout:
+            query1 = {"company": result.get('company')}
+            cursor = self.collection.find(query1, projection=self.publicProjection)
+            for doc in cursor:
                 user_list.append(doc)
-            user_list1 = {"title":[i for i in user_list]}
         except Exception as e:
             self.logger.exception(str(e))
-        return user_list1
+        return user_list
 
     @staticmethod
     def validate_public(user):

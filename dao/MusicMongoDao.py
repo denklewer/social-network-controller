@@ -14,7 +14,8 @@ class MusicMongoDao(MusicDao):
                         "album": 1.0,
                        "rating": 1.0,
                        "size": 1.0,
-                       "owner": 1.0}
+                       "owner": 1.0,
+                      "filename": 1.0}
 
     def load_music(self, user):
         query = {}
@@ -22,10 +23,8 @@ class MusicMongoDao(MusicDao):
         song_list = []
         try:
             result = self.collection.find(query, projection=self.publicProjection)
-
             for doc in result:
                 song_list.append(doc)
-            song_list = {"Song": [i for i in song_list]}
         except Exception as e:
             self.logger.exception(str(e))
         return song_list

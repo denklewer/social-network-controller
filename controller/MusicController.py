@@ -15,6 +15,7 @@ def insert_music(music_data):
     music_service = MusicService()
     return music_service.insert_music(music_data);
 
+
 @music.route('/load', methods=['POST'])
 def load_music():
     data = request.get_json()
@@ -26,11 +27,4 @@ def load_music():
             }
         ), 400)
     result = musicService.load_music(data['email'])
-    if not result:
-        return make_response(jsonify(
-            {
-                "status": "error",
-                "reason": "music load was not correct"
-            }
-        ), 400)
     return JSONEncoder.encode(result)

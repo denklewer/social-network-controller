@@ -14,6 +14,6 @@ class MusicService:
     def load_music(self, user):
         result = self.music_dao.load_music(user)
         if result is None:
-            result=[]
+            result = []
         return result
 

@@ -73,6 +73,7 @@ def updateUser():
         ), 400)
     return JSONEncoder.encode(result), 200
 
+
 @user.route('/', methods=['POST'])
 def insertUser():
     data = request.get_json()
@@ -94,9 +95,9 @@ def insertUser():
         ), 400)
     return JSONEncoder.encode(result), 200
 
-@user.route('/GetTeam', methods=['POST'])
 
-def getteam():
+@user.route('/team', methods=['POST'])
+def get_team():
     data = request.get_json()
     if data is None or "email" not in data:
         return make_response(jsonify(
@@ -110,7 +111,7 @@ def getteam():
         return make_response(jsonify(
             {
                 "status": "error",
-                "reason" : "get team was not correct"
+                "reason": "get team was not correct"
             }
         ),400)
     return JSONEncoder.encode(result)
